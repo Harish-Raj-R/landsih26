@@ -209,6 +209,30 @@ export const getDepartmentDataForParcel = (parcel) => {
       }
     },
 
+    // 7A. Standalone Agriculture Department
+    agriculture: {
+      id: 'agriculture',
+      number: '4',
+      title: 'Agriculture Department',
+      subtitle: 'Agricultural Holding Classification, Soil Fertility & Irrigation Sources',
+      badgeColor: 'lime',
+      keyMetrics: 'Crop Information + Soil Taxonomy + Irrigation Sources + Agricultural Land Status.',
+      parameters: [
+        { label: 'Parcel ID', value: parcelId },
+        { label: 'ULPIN', value: parcel.ulpin },
+        { label: 'Survey Number', value: parcel.surveyNumber },
+        { label: 'Agricultural Land Status', value: isAgri ? 'Agricultural Land' : 'Non-Agricultural Land', badge: isAgri ? 'Agricultural' : 'Non-Agri', badgeColor: isAgri ? 'green' : 'amber' },
+        { label: 'Land Type', value: isAgri ? 'Wet Land (Nanjai)' : 'Dry Land (Punjai)' },
+        { label: 'Crop Information', value: isAgri ? 'Paddy (Samba Season) & Pulses' : 'None (Urban Layout)' },
+        { label: 'Soil Information', value: 'Clay Loam with High Organic Retention' },
+        { label: 'Irrigation Information', value: isAgri ? 'Canal & Deep Borewell Connected' : 'Not Applicable' },
+        { label: 'Irrigated Status', value: isAgri ? 'Irrigated' : 'Dry' },
+        { label: 'Cultivation Status', value: isAgri ? 'Under Active Cultivation' : 'Settled / Built' },
+        { label: 'Agricultural Classification', value: isAgri ? 'Wet Crop Agriculture' : 'Converted' },
+        { label: 'Water Source', value: 'Groundwater Aquifer & Irrigation Canal' }
+      ]
+    },
+
     // 8. Electricity Department
     electricity: {
       id: 'electricity',
@@ -231,27 +255,26 @@ export const getDepartmentDataForParcel = (parcel) => {
       ]
     },
 
-    // 9. Environment-Related Authorities
+    // 8. Environment & Forest Department
     environment: {
       id: 'environment',
-      title: 'Environment-Related Authorities',
-      subtitle: 'Coastal Regulation Zone (CRZ), Wetland, Flood Zone & Waterbody Buffers',
+      title: 'Environment & Forest Department',
+      subtitle: 'Coastal Regulation Zone (CRZ), Wetland, Forest Buffers & Environmental Clearances',
       badgeColor: 'cyan',
-      keyMetrics: 'CRZ + Wetland + Flood Zone + ESZ + Waterbody + Clearance + Restriction.',
+      keyMetrics: 'CRZ + Wetland + Flood Zone + ESZ + Forest Buffer + Clearance Status.',
       parameters: [
         { label: 'Parcel ID', value: parcelId },
-        { label: 'Environmental Zone', value: 'Normal' },
+        { label: 'Environmental Zone', value: 'Normal / Permitted' },
         { label: 'CRZ Status', value: 'Not Applicable' },
         { label: 'Wetland Status', value: 'No' },
         { label: 'Waterbody Status', value: 'No' },
-        { label: 'Flood Zone', value: 'Zone I' },
-        { label: 'Eco-Sensitive Zone', value: 'No' },
-        { label: 'Protected Area', value: 'No' },
-        { label: 'Waterbody Distance', value: '350 m' },
-        { label: 'Environmental Restriction', value: 'None' },
-        { label: 'Clearance Required', value: 'No' },
-        { label: 'Clearance Status', value: 'Approved' },
-        { label: 'Development Restriction', value: 'Applicable' }
+        { label: 'Flood Zone', value: 'Zone I (Safe)' },
+        { label: 'Eco-Sensitive Zone (ESZ)', value: 'No' },
+        { label: 'Forest Buffer Margin', value: `${(1.2 + (hash % 5) * 0.4).toFixed(1)} km`, badge: 'Clear', badgeColor: 'green' },
+        { label: 'Forest Clearance Required', value: 'No' },
+        { label: 'Environmental Clearance', value: 'Approved', badge: 'Approved', badgeColor: 'green' },
+        { label: 'Development Restriction', value: 'None' },
+        { label: 'Pollution Control Status', value: 'Compliant', badge: 'Compliant', badgeColor: 'green' }
       ]
     },
 
