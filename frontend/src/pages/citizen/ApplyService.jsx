@@ -9,7 +9,16 @@ import api from '../../services/api';
 import { enqueueOfflineAction } from '../../services/indexedDbService';
 import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 
+import { useAuth } from '../../context/AuthContext';
+import PattaApplicationWorkflow from '../../components/PattaApplicationWorkflow';
+import EcApplicationWorkflow from '../../components/EcApplicationWorkflow';
+import LandConversionWorkflow from '../../components/LandConversionWorkflow';
+import PropertyMutationWorkflow from '../../components/PropertyMutationWorkflow';
+import BuildingPermissionWorkflow from '../../components/BuildingPermissionWorkflow';
+import DgpsSurveyWorkflow from '../../components/DgpsSurveyWorkflow';
+
 export const ApplyService = () => {
+  const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { isOnline, refreshQueueCount } = useOnlineStatus();
@@ -25,12 +34,8 @@ export const ApplyService = () => {
   const [error, setError] = useState('');
   const [successApp, setSuccessApp] = useState(null);
 
-  // Uploaded documents state
-  const [documents, setDocuments] = useState([
-    { documentType: 'Registered Sale Deed', documentName: 'SaleDeed_Registered_Doc_884.pdf', fileSize: '2.8 MB', verified: true },
-    { documentType: 'Latest Property Tax Receipt', documentName: 'TaxReceipt_FY2025_26.pdf', fileSize: '1.1 MB', verified: true },
-    { documentType: 'Identity Proof (Aadhaar/Voter ID)', documentName: 'Aadhaar_Masked_Verified.pdf', fileSize: '0.9 MB', verified: true },
-  ]);
+  // Uploaded documents state (Starts empty, citizen uploads documents)
+  const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
     loadServices();
@@ -122,6 +127,90 @@ export const ApplyService = () => {
   };
 
   const activeService = services.find(s => s.id.toString() === selectedServiceId);
+  const isPattaService = selectedServiceId === '1' || activeService?.serviceName?.toLowerCase().includes('patta') || searchParams.get('service') === 'patta';
+  const isEcService = selectedServiceId === '2' || activeService?.serviceName?.toLowerCase().includes('encumbrance') || searchParams.get('service') === 'ec';
+  const isConversionService = selectedServiceId === '3' || activeService?.serviceName?.toLowerCase().includes('conversion') || searchParams.get('service') === 'conversion';
+  const isMutationService = selectedServiceId === '4' || activeService?.serviceName?.toLowerCase().includes('mutation') || searchParams.get('service') === 'mutation';
+  const isBuildingService = selectedServiceId === '5' || activeService?.serviceName?.toLowerCase().includes('building') || searchParams.get('service') === 'building';
+  const isSurveyService = selectedServiceId === '6' || activeService?.serviceName?.toLowerCase().includes('demarcation') || activeService?.serviceName?.toLowerCase().includes('dgps') || searchParams.get('service') === 'survey';
+
+  if (isPattaService && parcel) {
+    return (
+      <div className="p-6 max-w-5xl mx-auto">
+        <PattaApplicationWorkflow
+          parcel={parcel}
+          user={user}
+          onBack={() => navigate('/dashboard')}
+          onSuccess={() => navigate('/dashboard')}
+        />
+      </div>
+    );
+  }
+
+  if (isEcService && parcel) {
+    return (
+      <div className="p-6 max-w-5xl mx-auto">
+        <EcApplicationWorkflow
+          parcel={parcel}
+          user={user}
+          onBack={() => navigate('/dashboard')}
+          onSuccess={() => navigate('/dashboard')}
+        />
+      </div>
+    );
+  }
+
+  if (isConversionService && parcel) {
+    return (
+      <div className="p-6 max-w-5xl mx-auto">
+        <LandConversionWorkflow
+          parcel={parcel}
+          user={user}
+          onBack={() => navigate('/dashboard')}
+          onSuccess={() => navigate('/dashboard')}
+        />
+      </div>
+    );
+  }
+
+  if (isMutationService && parcel) {
+    return (
+      <div className="p-6 max-w-5xl mx-auto">
+        <PropertyMutationWorkflow
+          parcel={parcel}
+          user={user}
+          onBack={() => navigate('/dashboard')}
+          onSuccess={() => navigate('/dashboard')}
+        />
+      </div>
+    );
+  }
+
+  if (isBuildingService && parcel) {
+    return (
+      <div className="p-6 max-w-5xl mx-auto">
+        <BuildingPermissionWorkflow
+          parcel={parcel}
+          user={user}
+          onBack={() => navigate('/dashboard')}
+          onSuccess={() => navigate('/dashboard')}
+        />
+      </div>
+    );
+  }
+
+  if (isSurveyService && parcel) {
+    return (
+      <div className="p-6 max-w-5xl mx-auto">
+        <DgpsSurveyWorkflow
+          parcel={parcel}
+          user={user}
+          onBack={() => navigate('/dashboard')}
+          onSuccess={() => navigate('/dashboard')}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 max-w-4xl mx-auto space-y-6">

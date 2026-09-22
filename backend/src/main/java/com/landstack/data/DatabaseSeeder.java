@@ -33,9 +33,8 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        ensureTenDepartmentsAndServices();
-
         if (roleRepository.count() > 0) {
+            ensureTenDepartmentsAndServices();
             log.info("Core database tables already seeded. Verified 10 statutory departments and services.");
             return;
         }
@@ -582,6 +581,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .timestamp(LocalDateTime.now().minusDays(1))
                 .build());
 
+        ensureTenDepartmentsAndServices();
         log.info("Database seeding completed successfully! Pre-seeded {} parcels and {} services.", parcels.size(), 8);
     }
 

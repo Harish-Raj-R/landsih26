@@ -12,6 +12,8 @@ import LandStackAIChatbot from './components/LandStackAIChatbot';
 import Login from './pages/Login';
 import StaffLogin from './pages/StaffLogin';
 import Register from './pages/Register';
+import StatePortal from './pages/StatePortal';
+import IndiaMapPage from './pages/IndiaMapPage';
 import LandMap from './pages/LandMap';
 import Dashboard from './pages/Dashboard';
 import ServicesCatalog from './pages/ServicesCatalog';
@@ -86,6 +88,9 @@ export function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/staff/login" element={<StaffLogin />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/state/:stateId" element={<StatePortal />} />
+              <Route path="/india-map" element={<IndiaMapPage />} />
+              <Route path="/select-state" element={<IndiaMapPage />} />
 
               {/* Authenticated Dashboard */}
               <Route
